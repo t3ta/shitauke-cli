@@ -2,53 +2,69 @@
 
 ## 概要
 
-`shitauke-cli` を使用してマークダウン文書を構造化されたJSONデータに変換するための最適化されたプロンプト例です。適切な階層構造、リスト項目、フォーマット情報を維持します。
+このディレクトリでは、`shitauke-cli` を使用してマークダウン文書を構造化されたJSONデータに変換する例を提供しています。見出し階層、リスト項目、テーブル、フォーマット情報（太字やリンクなど）を適切に保持したJSONに変換できます。
 
 ## 使用方法
 
 ```bash
 # 基本的な使い方
-shitauke send "$(cat ./optimal-prompt.txt)" -m gemini-2.0-flash-001 -f json -i ./sample.md -o ./output.json
+cd /Users/tmita/workspace/shitauke-cli
+node dist/index.js send "$(cat ./examples/markdown-to-json/optimal-prompt.txt)" \
+  -m gemini-2.0-flash-001 \
+  -f json \
+  -i ./examples/markdown-to-json/sample.md \
+  -o ./examples/markdown-to-json/output.json
 
 # 上書きオプションを使用する場合
-shitauke send "$(cat ./optimal-prompt.txt)" -m gemini-2.0-flash-001 -f json -i ./sample.md -o ./output.json --overwrite
-
-# テンプレートとして保存して再利用する場合
-shitauke template add "md2json" "$(cat ./optimal-prompt.txt)"
-shitauke send -t "md2json" -i ./sample.md -o ./output.json
+node dist/index.js send "$(cat ./examples/markdown-to-json/optimal-prompt.txt)" \
+  -m gemini-2.0-flash-001 \
+  -f json \
+  -i ./examples/markdown-to-json/sample.md \
+  -o ./examples/markdown-to-json/output.json \
+  --overwrite
 ```
 
-## 最適化されたプロンプト
+## プロンプト最適化のポイント
 
-`optimal-prompt.txt` ファイルに含まれる最適化されたプロンプトは、以下の特徴を持っています：
+プロンプトでは以下の工夫を行っています：
 
-1. **階層構造の適切な処理**: 見出しレベルに基づいた正確なJSONオブジェクトの入れ子構造
-2. **リスト項目の配列化**: 箇条書きリストを適切な配列として処理
-3. **テーブルの変換**: マークダウンの表をオブジェクトの配列に変換
-4. **フォーマット情報の保持**: 太字やリンクなどの装飾情報を構造化して保持
-5. **データ型の適切な変換**: 日付、数値などを適切なデータ型に変換
+1. **明確な変換ルール**: 階層構造、リスト処理、テーブル処理、書式情報の保持など、詳細な変換ルールを提示
+2. **データ型の明示**: 日付や数値などは適切なデータ型に変換するよう指示
+3. **出力形式の指定**: コードブロック記法を含めない純粋なJSONデータの出力を指示
+4. **構造のバランス**: 厳密な構造よりも読みやすさと使いやすさを優先するよう指示
+5. **UTF-8文字の保持**: 日本語などのUTF-8文字をエスケープせずそのまま保持するよう指定
+
+## 機能の特徴
+
+- **自動クリーニング機能**: `-f json`オプションを使用すると、AIモデルからの出力にマークダウンコードブロック（```json〜```）が含まれていても自動的に削除され、整形されたJSONファイルが生成されます
+- **JSON検証**: 出力内容がJSON形式として正しいかをチェックし、正しいJSONの場合は整形して出力します
+- **構造化変換**: マークダウンの見出し、リスト、テーブルなどの要素を適切なJSON構造に変換します
+
+## 入力/出力の説明
+
+### 入力ファイル (sample.md)
+マークダウン形式で書かれたプロジェクト概要文書です。見出し、リスト、テーブル、書式付きテキスト、リンクなど様々なマークダウン要素を含んでいます。
+
+### 出力ファイル (output.json)
+階層構造や書式情報を保持した構造化されたJSON形式のデータです。各見出しはJSONのオブジェクト階層に、リストは配列に、テーブルはオブジェクトの配列に変換されています。
 
 ## ファイル構成
 
-- `sample.md`: 変換元のマークダウンファイル
-- `optimal-prompt.txt`: 最適化された変換用プロンプト
-- `output.json`: 生成されるJSONファイル例
+- **README.md**: この説明ファイル
+- **optimal-prompt.txt**: 最適化されたプロンプトファイル
+- **sample.md**: 変換元のマークダウンファイル
+- **output.json**: 生成されたJSONファイル
 
 ## ユースケース
 
-- **プロジェクト仕様書の構造化**: マークダウン形式で書かれたドキュメントを構造化してDBに保存
-- **APIドキュメントの変換**: APIドキュメントをJSON形式に変換してプログラム的に処理
-- **マークダウンフロントマターの扱い**: マークダウンのフロントマターをJSONとして抽出
-- **CMSデータ変換**: マークダウン形式のコンテンツをCMS用に構造化
+- **ドキュメント管理システム**: マークダウン形式のドキュメントをデータベースに構造化して保存
+- **API仕様書の変換**: API仕様書をプログラムで処理可能なJSON形式に変換
+- **コンテンツ管理**: CMS向けにマークダウンコンテンツを構造化データに変換
+- **データ抽出**: マークダウン文書から特定の情報を抽出し分析や可視化に利用
 
-## 第三者ツールとの統合
+## 拡張アイデア
 
-生成されたJSONは、続いて`jq`や他のツールで処理できます：
-
-```bash
-# JSONの特定部分を抽出
-cat output.json | jq '.\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u6982\u8981.\u6280\u8853\u30b9\u30bf\u30c3\u30af'
-
-# MongoDBにインポート
-mongoimport --db myproject --collection documents --file output.json
-```
+- **カスタム変換ルール**: 特定のマークダウン構造に合わせた変換ルールのカスタマイズ
+- **スキーマ検証**: 出力JSONを特定のスキーマに従うよう検証機能の追加
+- **双方向変換**: JSON→マークダウンの逆変換機能の実装
+- **バッチ処理**: 複数のマークダウンファイルを一括変換する機能

@@ -147,7 +147,8 @@ export function configureSendCommand(program: Command): void {
           await writeFile(
             requestOptions.outputFile,
             response.content,
-            requestOptions.overwrite || false
+            requestOptions.overwrite || false,
+            requestOptions.format // 出力フォーマットを渡す
           );
         } else {
           // Print the response

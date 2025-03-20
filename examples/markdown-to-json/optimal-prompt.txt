@@ -1,33 +1,39 @@
-Convert this markdown to structured JSON following these specific rules:
+マークダウン文書を構造化されたJSONに変換してください。
 
-1. Hierarchical structure:
-   - Each heading (# Main, ## Sub, ### Detail) becomes a key in the JSON hierarchy
-   - Maintain proper nesting based on heading levels (h1 > h2 > h3)
-   - If a paragraph appears directly after a heading, treat it as a "description" property
-   - Keep the structure as flat as reasonably possible
+## 変換ルール
+1. 階層構造:
+   - 各見出し (# 大項目, ## 中項目, ### 小項目) はJSONのキーとなります
+   - 見出しレベルに基づいて適切な入れ子構造を維持してください
+   - 見出し直後の段落は "description" プロパティとして扱います
+   - 構造はできるだけフラットに保ちます
 
-2. List handling:
-   - Convert simple bullet lists (-) to arrays of strings
-   - For list items with formatting, use proper object representation
-   - Process numbered lists (1. 2.) as arrays with preserved order
-   - Convert definition-style items (Term: Value) to key-value pairs when appropriate
+2. リスト処理:
+   - 箇条書きリスト(-) は文字列の配列に変換します
+   - 書式付きリスト項目は適切なオブジェクト表現を使用します
+   - 番号付きリスト(1. 2.)は順序を保持した配列として処理します
+   - 定義スタイルの項目(用語: 値)は適切な場合キーと値のペアに変換します
 
-3. Table handling:
-   - Convert tables to arrays of objects
-   - Use the first row as keys for each object
-   - Each subsequent row becomes one object in the array
-   - Maintain proper data types (numbers as numbers, etc.)
+3. テーブル処理:
+   - テーブルはオブジェクトの配列に変換します
+   - 最初の行を各オブジェクトのキーとして使用します
+   - 後続の各行は配列内の1つのオブジェクトになります
+   - 適切なデータ型を維持します（数値は数値として等）
 
-4. Formatting preservation:
-   - Format bold text (**text**) as {"value": "text", "format": "bold"}
-   - Format links [text](url) as {"text": "text", "url": "url"}
-   - Preserve code blocks with language information when present
+4. 書式情報の保持:
+   - 太字テキスト(**テキスト**)は {"value": "テキスト", "format": "bold"} として処理
+   - リンク[テキスト](url)は {"text": "テキスト", "url": "url"} として処理
+   - コードブロックは言語情報がある場合はそれも保持します
 
-5. Output quality:
-   - Use human-readable key names from the original markdown
-   - Preserve the original document structure
-   - Ensure valid JSON with 2-space indentation
-   - Detect and convert data types appropriately (dates, numbers, etc.)
-   - No Unicode escaping (preserve UTF-8 characters as-is)
+5. 出力品質:
+   - 元のマークダウンから人間が読みやすいキー名を使用します
+   - 元の文書構造を保持します
+   - 2スペースインデントの有効なJSONを確保します
+   - データ型を適切に検出し変換します（日付、数値など）
+   - Unicodeエスケープはせず、UTF-8文字をそのまま保持します
 
-Always prioritize readability and usability of the resulting JSON over strict adherence to a particular structure.
+## 出力形式について（重要）
+- レスポンスはJSON形式のみとし、バッククォート(```)やコードブロック記法を含めないでください
+- コメントや説明文も含めず、純粋なJSONデータのみを出力してください
+- JSONデータは最初の文字({)から始まり、最後の文字(})で終わるようにしてください
+
+特定の構造に厳密に従うよりも、結果のJSONの読みやすさと使いやすさを優先してください。

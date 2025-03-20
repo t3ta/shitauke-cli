@@ -40,8 +40,12 @@ export async function readFiles(filePaths: string[]): Promise<Map<string, string
 
 /**
  * Write content to a file
+ * @param filePath - Path to the file
+ * @param content - Content to write
+ * @param overwrite - Whether to overwrite existing file
+ * @param format - Output format (used for post-processing)
  */
-export async function writeFile(filePath: string, content: string, overwrite = false): Promise<void> {
+export async function writeFile(filePath: string, content: string, overwrite = false, format?: string): Promise<void> {
   try {
     const dirname = path.dirname(filePath);
     await fs.ensureDir(dirname);
@@ -52,7 +56,26 @@ export async function writeFile(filePath: string, content: string, overwrite = f
     }
     
     logger.debug(`Writing to file: ${filePath}`);
-    await fs.writeFile(filePath, content);
+    
+    // Post-process content based on format
+    let processedContent = content;
+    
+    // Automatically clean markdown code blocks from JSON content
+    if (format === 'json') {
+      // Remove markdown code blocks
+      processedContent = processedContent.replace(/^```json\s*/m, '').replace(/\s*```$/m, '');
+      
+      // Validate and format JSON
+      try {
+        const jsonData = JSON.parse(processedContent);
+        processedContent = JSON.stringify(jsonData, null, 2);
+        logger.debug('JSON validated and formatted successfully');
+      } catch (jsonError) {
+        logger.warning(`Invalid JSON detected, but still removing markdown code blocks: ${jsonError.message}`);
+      }
+    }
+    
+    await fs.writeFile(filePath, processedContent);
     logger.success(`Successfully wrote to ${filePath}`);
   } catch (error) {
     logger.error(`Error writing to file: ${error instanceof Error ? error.message : String(error)}`);

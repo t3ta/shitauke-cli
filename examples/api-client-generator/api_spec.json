@@ -1,0 +1,54 @@
+{
+  "baseUrl": "https://api.example.com/v1",
+  "auth": {
+    "type": "Bearer",
+    "headerName": "Authorization"
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/users",
+      "description": "ユーザー一覧を取得",
+      "params": {
+        "page": "number, optional",
+        "limit": "number, optional"
+      },
+      "response": {
+        "users": "User[]",
+        "total": "number",
+        "page": "number",
+        "totalPages": "number"
+      }
+    },
+    {
+      "method": "GET", 
+      "path": "/users/{id}",
+      "description": "特定のユーザー情報を取得",
+      "pathParams": {
+        "id": "string, required"
+      },
+      "response": "User"
+    },
+    {
+      "method": "POST",
+      "path": "/users",
+      "description": "新規ユーザーを作成",
+      "body": {
+        "name": "string, required",
+        "email": "string, required",
+        "age": "number, optional"
+      },
+      "response": "User"
+    }
+  ],
+  "models": {
+    "User": {
+      "id": "string",
+      "name": "string",
+      "email": "string",
+      "age": "number?",
+      "createdAt": "string (ISO date)",
+      "updatedAt": "string (ISO date)"
+    }
+  }
+}

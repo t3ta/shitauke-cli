@@ -18,7 +18,7 @@ export function configureSendCommand(program: Command): void {
     .description('Send a prompt to an AI model')
     .option('-m, --model <model>', 'Specify the AI model to use')
     .option('-p, --provider <provider>', 'Specify the AI provider (openai, anthropic, gemini, auto)')
-    .option('-f, --format <format>', 'Specify the output format (json, markdown, text)')
+    .option('-f, --format <format>', 'Specify the output format (json, markdown, text, ts)')
     .option('-i, --input <files...>', 'Input files to include with the prompt')
     .option('-o, --output <file>', 'Output file to write the response to')
     .option('--overwrite', 'Overwrite the output file if it exists')

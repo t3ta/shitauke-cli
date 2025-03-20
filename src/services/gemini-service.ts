@@ -100,6 +100,9 @@ export class GeminiService implements AIService {
         case 'markdown':
           contents[0].text += '\n\nPlease provide the response in Markdown format.';
           break;
+        case 'ts':
+          contents[0].text += '\n\nPlease provide the response as raw TypeScript code without any markdown formatting, code blocks, or backticks. Do not include ```typescript or ``` tags in your response. Just output the code directly without any decorators.';
+          break;
       }
     }
     

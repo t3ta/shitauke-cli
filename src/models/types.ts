@@ -1,5 +1,5 @@
 // Output format options
-export type OutputFormat = 'json' | 'markdown' | 'text';
+export type OutputFormat = 'json' | 'markdown' | 'text' | 'ts';
 
 // Model provider options
 export type ModelProvider = 'openai' | 'anthropic' | 'gemini' | 'auto';

@@ -60,18 +60,35 @@ export async function writeFile(filePath: string, content: string, overwrite = f
     // Post-process content based on format
     let processedContent = content;
     
-    // Automatically clean markdown code blocks from JSON content
-    if (format === 'json') {
-      // Remove markdown code blocks
-      processedContent = processedContent.replace(/^```json\s*/m, '').replace(/\s*```$/m, '');
+    // コードブロック記法を自動的に削除
+    if (format) {
+      // 各フォーマットに対応するコードブロック記法のパターン
+      const codeBlockPatterns = {
+        'json': /^```(?:json)?\s*([\s\S]*?)\s*```$/,
+        'ts': /^```(?:typescript|ts|js|javascript)?\s*([\s\S]*?)\s*```$/,
+        'text': /^```(?:text|plain)?\s*([\s\S]*?)\s*```$/,
+        'markdown': /^```(?:markdown|md)?\s*([\s\S]*?)\s*```$/
+      };
       
-      // Validate and format JSON
-      try {
-        const jsonData = JSON.parse(processedContent);
-        processedContent = JSON.stringify(jsonData, null, 2);
-        logger.debug('JSON validated and formatted successfully');
-      } catch (jsonError) {
-        logger.warning(`Invalid JSON detected, but still removing markdown code blocks: ${jsonError.message}`);
+      const pattern = codeBlockPatterns[format];
+      if (pattern) {
+        const match = processedContent.match(pattern);
+        if (match && match[1]) {
+          // コードブロック内の内容を抽出
+          processedContent = match[1];
+          logger.debug(`Removed code block syntax for ${format} format`);
+        }
+      }
+      
+      // JSON形式の場合は追加の整形処理
+      if (format === 'json') {
+        try {
+          const jsonData = JSON.parse(processedContent);
+          processedContent = JSON.stringify(jsonData, null, 2);
+          logger.debug('JSON validated and formatted successfully');
+        } catch (jsonError) {
+          logger.warning(`Invalid JSON detected: ${jsonError.message}`);
+        }
       }
     }
     

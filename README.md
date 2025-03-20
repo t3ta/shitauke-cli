@@ -8,6 +8,7 @@
 - **簡単なCLI操作**: コマンド一つで発注が完了
 - **AIモデルの自動選定**: OpenAI, Anthropic, Gemini など適切なAIを自動で選択
 - **フォーマット統一**: JSON / Markdown 形式で出力
+- **コードブロック自動除去**: 全ての出力形式（JSON/TS/Markdown/Text）でコードブロック記法を自動除去
 - **発注履歴の管理**: 過去の発注を記録し、再利用が可能
 - **カスタムプロンプト**: よく使う発注テンプレートを保存
 - **コスト管理**: APIの利用料金を記録し、コストを可視化
@@ -187,6 +188,43 @@ shitauke send -m gemini-2.0-flash-001 -i ./screenshot.png "この画面に表示
 
 # ストリーミングモードでリアルタイム出力
 shitauke send -m gemini-2.0-flash-lite-001 "AIの将来について考察してください" --stream
+```
+
+## 📚 プロンプト例と活用シーン
+
+`examples` ディレクトリには、`shitauke-cli` を使った様々なユースケースの例が含まれています。
+各例は「入力→処理→出力」の一連の流れを示し、AIモデルへの効果的な発注方法を学ぶための参考になります。
+
+### markdown-to-json
+
+マークダウン文書を構造化されたJSONデータに変換する例です。見出し階層、リスト項目、テーブル、フォーマット情報（太字やリンクなど）を適切に保持します。
+
+```sh
+# マークダウンをJSON形式に変換
+shitauke send "$(cat ./examples/markdown-to-json/optimal-prompt.txt)" \
+  -m gemini-2.0-flash-001 \
+  -f json \
+  -i ./examples/markdown-to-json/sample.md \
+  -o ./output.json
+```
+
+特徴：
+- `-f json` オプションを使用すると、AIモデルからの出力にマークダウンコードブロックが含まれていても自動的に削除され、整形されたJSONファイルが生成されます
+- また、`-f ts`, `-f text`, `-f markdown` でも同様にコードブロック記法は削除されます
+- JSON形式のバリデーションと整形処理が行われます
+- 適切な階層構造、リスト項目、フォーマット情報を維持します
+
+### api-client-generator
+
+API仕様からTypeScriptクライアントを生成する例です。
+
+```sh
+# API仕様からTypeScriptクライアントを生成
+shitauke send "$(cat ./examples/api-client-generator/optimal-prompt.txt)" \
+  -m gemini-2.0-flash-001 \
+  -f ts \
+  -i ./examples/api-client-generator/api_spec.json \
+  -o ./api-client.ts
 ```
 
 ## 🛠 開発環境

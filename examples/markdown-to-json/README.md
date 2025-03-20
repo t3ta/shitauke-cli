@@ -8,7 +8,7 @@
 
 ```bash
 # 基本的な使い方
-cd /Users/tmita/workspace/shitauke-cli
+cd /path/to/shitauke-cli
 node dist/index.js send "$(cat ./examples/markdown-to-json/optimal-prompt.txt)" \
   -m gemini-2.0-flash-001 \
   -f json \

@@ -88,7 +88,7 @@ examples/
 
    ```bash
    # ビルド
-   cd /Users/tmita/workspace/shitauke-cli && npm run build
+   cd /path/to/shitauke-cli && npm run build
 
    # 実行
    node dist/index.js send "$(cat ./examples/new-example-name/optimal-prompt.txt)" \

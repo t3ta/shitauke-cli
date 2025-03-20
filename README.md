@@ -166,6 +166,40 @@ shitauke send -i ./article_draft.md "この記事にコード例を追加し、�
 shitauke send -i ./improved_article.md "この記事の技術的正確性をチェックし、改善点があれば指摘してください" -o ./final_article.md
 ```
 
+## 📊 使用可能なGeminiモデル
+
+`shitauke-cli` では、以下のGeminiモデルをサポートしています：
+
+```
+# Gemini 2.0シリーズ
+gemini-2.0-flash-001        # 次世代の機能と速度を提供するマルチモーダルモデル
+gemini-2.0-flash-lite-001   # 費用対効果の高い低レイテンシモデル
+
+# Gemini 1.5シリーズ
+gemini-1.5-pro-002          # 複雑な推論タスクをサポートする高性能モデル (200万トークンの長いコンテキスト)
+gemini-1.5-flash-002        # 優れたパフォーマンスを発揮するバランスの取れたモデル
+
+# Gemini 1.0シリーズ(旧モデル)
+gemini-pro                  # 標準的なテキストモデル
+gemini-pro-vision           # 画像入力も受け付けるマルチモーダルモデル
+```
+
+### Geminiモデルの活用例
+
+```sh
+# Gemini 2.0 Flashを使用した発注
+shitauke send -m gemini-2.0-flash-001 "最新のWeb開発トレンドについて詳しく教えてください"
+
+# Gemini 1.5 Proを使用した長文ドキュメントの処理
+shitauke send -m gemini-1.5-pro-002 -i ./long_document.txt "200文字で要約してください"
+
+# 画像ファイルの解析（マルチモーダル入力）
+shitauke send -m gemini-pro-vision -i ./screenshot.png "この画面に表示されているエラーの原因と解決策を教えてください"
+
+# ストリーミングモードでリアルタイム出力
+shitauke send -m gemini-1.5-flash-002 "AIの将来について考察してください" --stream
+```
+
 ## 🛠 開発環境
 本プロジェクトは **TypeScript + Node.js + tsup** を使用し、ESM モジュール形式で構築されています。
 ### ビルド & 実行

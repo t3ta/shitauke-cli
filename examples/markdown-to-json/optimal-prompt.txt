@@ -1,0 +1,33 @@
+Convert this markdown to structured JSON following these specific rules:
+
+1. Hierarchical structure:
+   - Each heading (# Main, ## Sub, ### Detail) becomes a key in the JSON hierarchy
+   - Maintain proper nesting based on heading levels (h1 > h2 > h3)
+   - If a paragraph appears directly after a heading, treat it as a "description" property
+   - Keep the structure as flat as reasonably possible
+
+2. List handling:
+   - Convert simple bullet lists (-) to arrays of strings
+   - For list items with formatting, use proper object representation
+   - Process numbered lists (1. 2.) as arrays with preserved order
+   - Convert definition-style items (Term: Value) to key-value pairs when appropriate
+
+3. Table handling:
+   - Convert tables to arrays of objects
+   - Use the first row as keys for each object
+   - Each subsequent row becomes one object in the array
+   - Maintain proper data types (numbers as numbers, etc.)
+
+4. Formatting preservation:
+   - Format bold text (**text**) as {"value": "text", "format": "bold"}
+   - Format links [text](url) as {"text": "text", "url": "url"}
+   - Preserve code blocks with language information when present
+
+5. Output quality:
+   - Use human-readable key names from the original markdown
+   - Preserve the original document structure
+   - Ensure valid JSON with 2-space indentation
+   - Detect and convert data types appropriately (dates, numbers, etc.)
+   - No Unicode escaping (preserve UTF-8 characters as-is)
+
+Always prioritize readability and usability of the resulting JSON over strict adherence to a particular structure.

@@ -148,7 +148,7 @@ shitauke send -m claude-3-sonnet "新規ECサイトのマーケティング戦�
 shitauke send -m gpt-4 -i ./marketing_ideas.md "これらの案を分析し、最も効果的な3つを選び、詳細化してください" -o ./top_strategies.md
 
 # 3. Geminiで実行計画に落とし込む
-shitauke send -m gemini-2.0-pro -i ./top_strategies.md "これらの戦略を実行するための具体的なタイムラインとKPIを設定してください" -o ./execution_plan.md
+shitauke send -m gemini-2.0-flash-001 -i ./top_strategies.md "これらの戦略を実行するための具体的なタイムラインとKPIを設定してください" -o ./execution_plan.md
 ```
 
 ### 2. コンテンツ制作パイプライン
@@ -168,20 +168,12 @@ shitauke send -i ./improved_article.md "この記事の技術的正確性をチ�
 
 ## 📊 使用可能なGeminiモデル
 
-`shitauke-cli` では、以下のGeminiモデルをサポートしています：
+`shitauke-cli` では、以下のGemini 2.0シリーズモデルをサポートしています：
 
 ```
 # Gemini 2.0シリーズ
 gemini-2.0-flash-001        # 次世代の機能と速度を提供するマルチモーダルモデル
 gemini-2.0-flash-lite-001   # 費用対効果の高い低レイテンシモデル
-
-# Gemini 1.5シリーズ
-gemini-1.5-pro-002          # 複雑な推論タスクをサポートする高性能モデル (200万トークンの長いコンテキスト)
-gemini-1.5-flash-002        # 優れたパフォーマンスを発揮するバランスの取れたモデル
-
-# Gemini 1.0シリーズ(旧モデル)
-gemini-pro                  # 標準的なテキストモデル
-gemini-pro-vision           # 画像入力も受け付けるマルチモーダルモデル
 ```
 
 ### Geminiモデルの活用例
@@ -190,14 +182,11 @@ gemini-pro-vision           # 画像入力も受け付けるマルチモーダ�
 # Gemini 2.0 Flashを使用した発注
 shitauke send -m gemini-2.0-flash-001 "最新のWeb開発トレンドについて詳しく教えてください"
 
-# Gemini 1.5 Proを使用した長文ドキュメントの処理
-shitauke send -m gemini-1.5-pro-002 -i ./long_document.txt "200文字で要約してください"
-
-# 画像ファイルの解析（マルチモーダル入力）
-shitauke send -m gemini-pro-vision -i ./screenshot.png "この画面に表示されているエラーの原因と解決策を教えてください"
+# マルチモーダル入力
+shitauke send -m gemini-2.0-flash-001 -i ./screenshot.png "この画面に表示されているエラーの原因と解決策を教えてください"
 
 # ストリーミングモードでリアルタイム出力
-shitauke send -m gemini-1.5-flash-002 "AIの将来について考察してください" --stream
+shitauke send -m gemini-2.0-flash-lite-001 "AIの将来について考察してください" --stream
 ```
 
 ## 🛠 開発環境

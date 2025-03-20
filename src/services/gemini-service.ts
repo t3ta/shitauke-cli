@@ -45,18 +45,8 @@ export class GeminiService implements AIService {
    * Get the correct model name for the Gemini API
    */
   private getCorrectModelName(model: string): string {
-    // 内部使用の旧モデル名を現在のAPI名にマッピング
-    const modelMap: Record<string, string> = {
-      'gemini-1.0-pro': 'gemini-pro',
-      // Gemini 2.0シリーズはモデルIDをそのまま使用
-      'gemini-2.0-flash-001': 'gemini-2.0-flash-001',
-      'gemini-2.0-flash-lite-001': 'gemini-2.0-flash-lite-001',
-      // Gemini 1.5シリーズはモデルIDをそのまま使用
-      'gemini-1.5-pro-002': 'gemini-1.5-pro-002',
-      'gemini-1.5-flash-002': 'gemini-1.5-flash-002'
-    };
-    
-    return modelMap[model] || model;
+    // Gemini 2.0シリーズのモデル名をそのまま使用
+    return model;
   }
   
   /**
@@ -195,7 +185,7 @@ export class GeminiService implements AIService {
       const contents = await this.prepareInputContent(options);
       
       // 使用するモデルを決定
-      const originalModel = options.model || 'gemini-pro';
+      const originalModel = options.model || 'gemini-2.0-flash-001';
       const model = this.getCorrectModelName(originalModel);
       
       logger.info(`Sending request to Gemini (${originalModel})...`);

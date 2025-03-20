@@ -28,28 +28,6 @@ const COST_PER_1K_TOKENS = {
     output: 0.075
   },
   // Google Gemini Models
-  // Gemini 1.0シリーズ
-  'gemini-pro': {
-    input: 0.00025,
-    output: 0.0005
-  },
-  'gemini-1.0-pro': { // 互換性のために以前の名前も維持
-    input: 0.00025,
-    output: 0.0005
-  },
-  'gemini-pro-vision': {
-    input: 0.0003,
-    output: 0.0006
-  },
-  // Gemini 1.5シリーズ
-  'gemini-1.5-pro-002': {
-    input: 0.0005,   // 1Kトークンあたり$0.0005 (入力)
-    output: 0.0015   // 1Kトークンあたり$0.0015 (出力)
-  },
-  'gemini-1.5-flash-002': {
-    input: 0.00025,  // 1Kトークンあたり$0.00025 (入力)
-    output: 0.0008   // 1Kトークンあたり$0.0008 (出力)
-  },
   // Gemini 2.0シリーズ
   'gemini-2.0-flash-001': {
     input: 0.0003,   // 1Kトークンあたり$0.0003 (入力)

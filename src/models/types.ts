@@ -9,10 +9,6 @@ export const AVAILABLE_MODELS = {
   openai: ['gpt-4', 'gpt-3.5-turbo'],
   anthropic: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus'],
   gemini: [
-    'gemini-pro',
-    'gemini-pro-vision',
-    'gemini-1.5-pro-002',
-    'gemini-1.5-flash-002',
     'gemini-2.0-flash-001',
     'gemini-2.0-flash-lite-001'
   ]

@@ -23,6 +23,7 @@ export function configureSendCommand(program: Command): void {
     .option('-o, --output <file>', 'Output file to write the response to')
     .option('--overwrite', 'Overwrite the output file if it exists')
     .option('-t, --template <name>', 'Use a saved template')
+    .option('--stream', 'Enable streaming output for supported models')
     .option('--temperature <value>', 'Set the temperature (randomness) of the model', parseFloat)
     .option('--max-tokens <value>', 'Set the maximum tokens for the response', parseInt)
     .action(async (promptArg, options) => {
@@ -51,16 +52,42 @@ export function configureSendCommand(program: Command): void {
         
         // If no prompt is provided and no template is specified, prompt the user
         if (!finalPrompt) {
-          const answers = await inquirer.prompt([
-            {
-              type: 'editor',
-              name: 'prompt',
-              message: 'Enter your prompt:',
-              validate: (input) => input.trim().length > 0 ? true : 'Prompt cannot be empty'
+          // Try to read from stdin if available
+          if (!process.stdin.isTTY && process.stdin.readable) {
+            // Read from stdin
+            let stdinData = '';
+            process.stdin.setEncoding('utf8');
+            
+            const stdinPromise = new Promise<string>((resolve) => {
+              process.stdin.on('data', (chunk) => {
+                stdinData += chunk;
+              });
+              
+              process.stdin.on('end', () => {
+                resolve(stdinData.trim());
+              });
+            });
+            
+            try {
+              finalPrompt = await stdinPromise;
+            } catch (error) {
+              logger.error(`Error reading from stdin: ${error}`);
             }
-          ]);
+          }
           
-          finalPrompt = answers.prompt;
+          // If stdin was not available or empty, prompt interactively
+          if (!finalPrompt) {
+            const answers = await inquirer.prompt([
+              {
+                type: 'editor',
+                name: 'prompt',
+                message: 'Enter your prompt:',
+                validate: (input) => input.trim().length > 0 ? true : 'Prompt cannot be empty'
+              }
+            ]);
+            
+            finalPrompt = answers.prompt;
+          }
         }
         
         // Get default model and format if not specified
@@ -78,7 +105,8 @@ export function configureSendCommand(program: Command): void {
           outputFile: options.output,
           overwrite: options.overwrite,
           temperature: options.temperature,
-          maxTokens: options.maxTokens
+          maxTokens: options.maxTokens,
+          stream: options.stream
         };
         
         // Read input files if provided

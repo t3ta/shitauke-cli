@@ -144,8 +144,10 @@ examples/
 
 ## 既存の例
 
-| 例名                 | 説明                                       | 入力          | 出力          | モデル               |
-| -------------------- | ------------------------------------------ | ------------- | ------------- | -------------------- |
-| markdown-to-json     | マークダウンを JSON 構造に変換             | sample.md     | output.json   | gemini-2.0-flash-001 |
-| api-client-generator | API 仕様から TypeScript クライアントを生成 | api_spec.json | api-client.ts | gemini-2.0-flash-001 |
-| （今後追加）         | ...                                        | ...           | ...           | ...                  |
+| 例名                    | 説明                                           | 入力          | 出力          | モデル               |
+| ----------------------- | ---------------------------------------------- | ------------- | ------------- | -------------------- |
+| markdown-to-json        | マークダウンを JSON 構造に変換                 | sample.md     | output.json   | gemini-2.0-flash-001 |
+| api-client-generator    | API 仕様から TypeScript クライアントを生成     | api_spec.json | api-client.ts | gemini-2.0-flash-001 |
+| multilanguage-prompt    | テキストを複数言語に同時翻訳                   | input.txt     | output.md     | gemini-2.0-flash-001 |
+| code-comment-translator | コードのコメントと識別子を日本語から英語に翻訳 | input.py      | output.py     | gemini-2.0-flash-001 |
+| text-summarizer         | 長文テキストを3段階の詳細度で要約              | input.txt     | output.md     | gemini-2.0-flash-001 |

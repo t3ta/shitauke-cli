@@ -1,0 +1,56 @@
+# Advanced TypeScript Unit Test Generator with Mocking
+
+## Task Overview
+Generate comprehensive Jest unit tests for the provided TypeScript code that relies heavily on external dependencies and requires extensive mocking.
+
+## Input Description
+You'll receive a TypeScript file containing classes, interfaces, and types for a service with complex dependencies.
+
+## Requirements
+
+### Test Structure
+- Follow TDD principles
+- Use the "Assert → Act → Arrange" structure for each test
+- Name tests in the format: "situation → action → expected result"
+- Create deeply nested describe blocks to organize tests by method and scenario
+
+### Mocking Requirements
+- Create detailed mocks for all dependencies (ApiClient, Logger, CacheService)
+- Use Jest's spyOn, mockImplementation, mockResolvedValue, and mockRejectedValue
+- Reset all mocks between tests using beforeEach
+- Verify all mock interactions with expect().toHaveBeenCalled() assertions
+- Mock Date and Math.random for predictable testing
+
+### Coverage Requirements
+- Test both success and error paths for all public methods
+- Test error handling and retry logic
+- Cover edge cases (null returns, API failures, cache misses)
+- Test private methods indirectly through public methods
+- Verify that dependencies are called with correct parameters
+
+### Test Setup
+- Create realistic test fixtures for all input data
+- Use strong typing throughout
+- Reuse mocks and test data between tests appropriately
+- Add explanatory comments for complex test setups
+
+### Time and Randomness
+- Mock Date.now() to control timestamps
+- Mock toISOString() for predictable date strings
+- Mock Math.random() for predictable sampling behavior
+
+## Expected Output
+A complete Jest test file that:
+1. Imports required testing libraries and code under test
+2. Sets up proper mocks for all dependencies
+3. Contains thorough tests for all functionality
+4. Correctly handles async operations with await and proper assertions
+5. Uses TypeScript correctly with appropriate types
+
+## Important Notes
+- Do NOT wrap the output in markdown code blocks
+- The code contains complex async operations and error handling
+- Pay special attention to mocking the cache and API client
+- Make all randomness and time-based operations deterministic in tests
+- Use jest.mock() for external dependencies
+- Use jest.spyOn() for methods on dependency instances
